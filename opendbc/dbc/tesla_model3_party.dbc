@@ -37,23 +37,23 @@ BU_: CH DIPF DIPR ETH FC HVI HVS PARTY SDCV VEH VIRT
 
 
 BO_ 905 DAS_status2: 8 PARTY
- SG_ DAS_status2Checksum : 56|8@1+ (1,0) [0|255] ""  aps
- SG_ DAS_status2Counter : 52|4@1+ (1,0) [0|15] ""  aps
- SG_ DAS_longCollisionWarning : 48|4@1+ (1,0) [0|15] ""  aps
- SG_ DAS_ppOffsetDesiredRamp : 40|8@1+ (0.01,-1.28) [-1.28|1.27] "m"  aps
- SG_ DAS_driverInteractionLevel : 38|2@1+ (1,0) [0|2] ""  aps
- SG_ DAS_robState : 36|2@1+ (1,0) [0|3] ""  aps
- SG_ DAS_radarTelemetry : 34|2@1+ (1,0) [0|2] ""  aps
- SG_ DAS_lssState : 31|3@1+ (1,0) [0|7] ""  aps
- SG_ DAS_ACC_report : 26|5@1+ (1,0) [0|24] ""  aps
- SG_ DAS_pmmCameraFaultReason : 24|2@1+ (1,0) [0|2] ""  aps
- SG_ DAS_pmmSysFaultReason : 21|3@1+ (1,0) [0|7] ""  aps
- SG_ DAS_pmmRadarFaultReason : 19|2@1+ (1,0) [0|2] ""  aps
- SG_ DAS_pmmUltrasonicsFaultReason : 16|3@1+ (1,0) [0|4] ""  aps
- SG_ DAS_activationFailureStatus : 14|2@1+ (1,0) [0|2] ""  aps
- SG_ DAS_pmmLoggingRequest : 13|1@1+ (1,0) [0|1] ""  aps
- SG_ DAS_pmmObstacleSeverity : 10|3@1+ (1,0) [0|7] ""  aps
- SG_ DAS_accSpeedLimit : 0|10@1+ (0.2,0) [0|204.6] "mph"  aps
+ SG_ DAS_activationRequest : 8|1@0+ (1,0) [0|1] "" XXX
+ SG_ DAS_pmmObstacleSeverity : 10|3@1+ (1,0) [0|7] "" aps
+ SG_ DAS_pmmLoggingRequest : 13|1@1+ (1,0) [0|1] "" aps
+ SG_ DAS_activationFailureStatus : 14|2@1+ (1,0) [0|2] "" aps
+ SG_ DAS_pmmUltrasonicsFaultReason : 16|3@1+ (1,0) [0|4] "" aps
+ SG_ DAS_pmmRadarFaultReason : 19|2@1+ (1,0) [0|2] "" aps
+ SG_ DAS_pmmSysFaultReason : 21|3@1+ (1,0) [0|7] "" aps
+ SG_ DAS_pmmCameraFaultReason : 24|2@1+ (1,0) [0|2] "" aps
+ SG_ DAS_ACC_report : 26|5@1+ (1,0) [0|24] "" aps
+ SG_ DAS_lssState : 31|3@1+ (1,0) [0|7] "" aps
+ SG_ DAS_radarTelemetry : 34|2@1+ (1,0) [0|2] "" aps
+ SG_ DAS_robState : 36|2@1+ (1,0) [0|3] "" aps
+ SG_ DAS_driverInteractionLevel : 38|2@1+ (1,0) [0|2] "" aps
+ SG_ DAS_ppOffsetDesiredRamp : 40|8@1+ (0.01,-1.28) [-1.28|1.27] "m" aps
+ SG_ DAS_longCollisionWarning : 48|4@1+ (1,0) [0|15] "" aps
+ SG_ DAS_status2Counter : 52|4@1+ (1,0) [0|15] "" aps
+ SG_ DAS_status2Checksum : 56|8@1+ (1,0) [0|255] "" aps
 
 BO_ 264 DI_torque: 8 PARTY
  SG_ DI_axleSpeed : 40|16@1- (0.1,0.0) [-2750|2750] "RPM"  epas3s
@@ -240,7 +240,6 @@ VAL_ 905 DAS_pmmUltrasonicsFaultReason 2 "PMM_ULTRASONICS_BLOCKED_REAR" 0 "PMM_U
 VAL_ 905 DAS_activationFailureStatus 0 "LC_ACTIVATION_IDLE" 2 "LC_ACTIVATION_FAILED_2" 1 "LC_ACTIVATION_FAILED_1" ;
 VAL_ 905 DAS_pmmLoggingRequest 0 "FALSE" 1 "TRUE" ;
 VAL_ 905 DAS_pmmObstacleSeverity 5 "PMM_CRASH_FRONT" 0 "PMM_NONE" 2 "PMM_IMMINENT_FRONT" 4 "PMM_CRASH_REAR" 1 "PMM_IMMINENT_REAR" 6 "PMM_ACCEL_LIMIT" 7 "PMM_SNA" 3 "PMM_BRAKE_REQUEST" ;
-VAL_ 905 DAS_accSpeedLimit 1023 "SNA" 0 "NONE" ;
 VAL_ 264 DI_axleSpeed -32768 "SNA" ;
 VAL_ 264 DI_torqueActual -4096 "SNA" ;
 VAL_ 264 DI_torqueCommand -4096 "SNA" ;

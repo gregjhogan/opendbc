@@ -1,7 +1,7 @@
 import copy
 from opendbc.can.can_define import CANDefine
 from opendbc.can.parser import CANParser
-from opendbc.car import structs
+from opendbc.car import create_button_events, structs
 from opendbc.car.common.conversions import Conversions as CV
 from opendbc.car.interfaces import CarStateBase
 from opendbc.car.tesla.values import DBC, CANBUS, GEAR_MAP
@@ -16,9 +16,16 @@ class CarState(CarStateBase):
     self.hands_on_level = 0
     self.steer_warning = None
     self.das_control = None
+    self.engage_button = 0
+
 
   def update(self, cp, cp_cam, *_) -> structs.CarState:
     ret = structs.CarState()
+
+    # Buttons
+    prev_engage_button = self.engage_button
+    self.engage_button = cp.vl["DAS_status2"]["DAS_activationRequest"]
+    ret.buttonEvents = create_button_events(cur_btn=self.engage_button, prev_btn=prev_engage_button, buttons_dict={1: ButtonType.setCruise})
 
     # Vehicle speed
     ret.vEgoRaw = cp.vl["ESP_B"]["ESP_vehicleSpeed"] * CV.KPH_TO_MS
@@ -80,8 +87,6 @@ class CarState(CarStateBase):
     # AEB
     ret.stockAeb = cp_cam.vl["DAS_control"]["DAS_aebEvent"] == 1
 
-    # Buttons # ToDo: add Gap adjust button
-
     # Messages needed by carcontroller
     self.das_control = copy.copy(cp_cam.vl["DAS_control"])
 
@@ -96,7 +101,8 @@ class CarState(CarStateBase):
       ("IBST_status", 25),
       ("DI_state", 10),
       ("EPAS3S_sysStatus", 100),
-      ("UI_warning", 10)
+      ("UI_warning", 10),
+      ("DAS_status2", 3)
     ]
 
     return CANParser(DBC[CP.carFingerprint]['pt'], messages, CANBUS.party)
