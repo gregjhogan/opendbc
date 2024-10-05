@@ -16,16 +16,18 @@ class CarState(CarStateBase):
     self.hands_on_level = 0
     self.steer_warning = None
     self.das_control = None
+    self.das_status2 = None
     self.engage_button = 0
 
-
-  def update(self, cp, cp_cam, *_) -> structs.CarState:
+  def update(self, cp, cp_cam, cp_adas, *_) -> structs.CarState:
     ret = structs.CarState()
 
     # Buttons
     prev_engage_button = self.engage_button
-    self.engage_button = cp.vl["DAS_status2"]["DAS_activationRequest"]
-    ret.buttonEvents = create_button_events(cur_btn=self.engage_button, prev_btn=prev_engage_button, buttons_dict={1: ButtonType.setCruise})
+    self.engage_button = int(cp_cam.vl["DAS_status2"]["DAS_activationFailureStatus"])
+    #ret.buttonEvents = create_button_events(cur_btn=self.engage_button, prev_btn=prev_engage_button, buttons_dict={1: ButtonType.setCruise})
+    if prev_engage_button == 0 and self.engage_button in (1, 2):
+      ret.buttonEvents = [structs.CarState.ButtonEvent(pressed=True, type=ButtonType.setCruise)]
 
     # Vehicle speed
     ret.vEgoRaw = cp.vl["ESP_B"]["ESP_vehicleSpeed"] * CV.KPH_TO_MS
@@ -51,7 +53,7 @@ class CarState(CarStateBase):
 
     ret.steeringPressed = self.hands_on_level > 0
     eac_status = self.can_define.dv["EPAS3S_sysStatus"]["EPAS3S_eacStatus"].get(int(epas_status["EPAS3S_eacStatus"]), None)
-    ret.steerFaultPermanent = eac_status in ["EAC_FAULT"]
+    ret.steerFaultPermanent = eac_status in ["EAC_INHIBITED", "EAC_FAULT"]
     ret.steerFaultTemporary = self.steer_warning not in ["EAC_ERROR_IDLE", "EAC_ERROR_HANDS_ON"] and eac_status not in ["EAC_ACTIVE", "EAC_AVAILABLE"]
 
     # Cruise state
@@ -89,6 +91,7 @@ class CarState(CarStateBase):
 
     # Messages needed by carcontroller
     self.das_control = copy.copy(cp_cam.vl["DAS_control"])
+    self.das_status2 = copy.copy(cp_cam.vl["DAS_status2"])
 
     return ret
 
@@ -101,8 +104,7 @@ class CarState(CarStateBase):
       ("IBST_status", 25),
       ("DI_state", 10),
       ("EPAS3S_sysStatus", 100),
-      ("UI_warning", 10),
-      ("DAS_status2", 3)
+      ("UI_warning", 10)
     ]
 
     return CANParser(DBC[CP.carFingerprint]['pt'], messages, CANBUS.party)
@@ -113,6 +115,7 @@ class CarState(CarStateBase):
       ("DAS_control", 25),
       ("DAS_status", 2),
       ("SCCM_steeringAngleSensor", 100),
+      ("DAS_status2", 2),
     ]
 
     return CANParser(DBC[CP.carFingerprint]['pt'], messages, CANBUS.autopilot_party)

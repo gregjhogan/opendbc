@@ -39,3 +39,29 @@ class TeslaCAN:
     data = self.packer.make_can_msg("DAS_control", CANBUS.party, values)[1]
     values["DAS_controlChecksum"] = self.checksum(0x2b9, data[:7])
     return self.packer.make_can_msg("DAS_control", CANBUS.party, values)
+
+
+  def create_das_status2(self, das_status2, counter, enabled):
+    values = {s: das_status2[s] for s in [
+      "DAS_activationRequest",
+      "DAS_pmmObstacleSeverity",
+      "DAS_pmmLoggingRequest",
+      "DAS_activationFailureStatus",
+      "DAS_pmmUltrasonicsFaultReason",
+      "DAS_pmmRadarFaultReason",
+      "DAS_pmmSysFaultReason",
+      "DAS_pmmCameraFaultReason",
+      "DAS_ACC_report",
+      "DAS_lssState",
+      "DAS_radarTelemetry",
+      "DAS_robState",
+      "DAS_driverInteractionLevel",
+      "DAS_ppOffsetDesiredRamp",
+      "DAS_longCollisionWarning",
+    ]}
+
+    values["DAS_activationRequest"] = 1 if enabled else 0
+    values["DAS_status2Counter"] = counter
+    data = self.packer.make_can_msg("DAS_status2", CANBUS.party, values)[1]
+    values["DAS_status2Checksum"] = self.checksum(0x389, data[:7])
+    return self.packer.make_can_msg("DAS_status2", CANBUS.party, values)
