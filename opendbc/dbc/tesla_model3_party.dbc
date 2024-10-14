@@ -1,7 +1,7 @@
 VERSION ""
 
 
-NS_ : 
+NS_ :
 	NS_DESC_
 	CM_
 	BA_DEF_
@@ -37,7 +37,7 @@ BU_: CH DIPF DIPR ETH FC HVI HVS PARTY SDCV VEH VIRT
 
 
 BO_ 905 DAS_status2: 8 PARTY
- SG_ DAS_activationRequest : 8|1@0+ (1,0) [0|1] "" XXX
+ SG_ DAS_accSpeedLimit : 0|10@1+ (0.4,0) [0|204.6] "mph"  aps
  SG_ DAS_pmmObstacleSeverity : 10|3@1+ (1,0) [0|7] "" aps
  SG_ DAS_pmmLoggingRequest : 13|1@1+ (1,0) [0|1] "" aps
  SG_ DAS_activationFailureStatus : 14|2@1+ (1,0) [0|2] "" aps
@@ -151,6 +151,11 @@ BO_ 599 DI_speed: 8 PARTY
  SG_ DI_speedCounter : 8|4@1+ (1,0) [0|15] ""  park
  SG_ DI_speedChecksum : 0|8@1+ (1,0) [0|255] ""  park
 
+BO_ 637 APS_eacMonitor: 3 PARTY
+ SG_ APS_eacAllow : 0|2@1+ (1,0) [0|0] "" X
+ SG_ APS_eacMonitorChecksum : 16|8@1+ (1,0) [0|0] "" X
+ SG_ APS_eacMonitorCounter : 8|4@1+ (1,0) [0|0] "" X
+
 BO_ 1160 DAS_steeringControl: 4 PARTY
  SG_ DAS_steeringControlChecksum : 31|8@0+ (1,0) [0|255] ""  aps
  SG_ DAS_steeringControlCounter : 19|4@0+ (1,0) [0|15] ""  aps
@@ -170,7 +175,7 @@ BO_ 297 SCCM_steeringAngleSensor: 8 PARTY
  SG_ SCCM_steeringAngleCounter : 8|4@1+ (1,0) [0|15] ""  epas3s
  SG_ SCCM_steeringAngleCrc : 0|8@1+ (1,0) [0|255] ""  epas3s
 
-BO_ 646 DI_state: 7 ETH
+BO_ 646 DI_state: 8 ETH
  SG_ DI_summonInPanic : 48|1@1+ (1,0) [0|0] ""  X
  SG_ DI_rollPreventionState : 45|3@1+ (1,0) [0|0] ""  X
  SG_ DI_vehicleHoldState : 42|3@1+ (1,0) [0|0] ""  X
@@ -179,8 +184,8 @@ BO_ 646 DI_state: 7 ETH
  SG_ DI_autopilotRequest : 36|1@1+ (1,0) [0|0] ""  X
  SG_ DI_parkBrakeState : 32|4@1+ (1,0) [0|0] ""  X
  SG_ DI_autoparkState : 25|4@1+ (1,0) [0|0] ""  X
- SG_ DI_speedUnits : 24|1@1+ (1,0) [0|0] ""  X
- SG_ DI_digitalSpeed : 15|9@1+ (0.5,0) [0|0] "speed"  X
+ SG_ DI_cruiseSetSpeedUnits : 24|1@1+ (1,0) [0|0] ""  X
+ SG_ DI_cruiseSetSpeed : 15|9@1+ (0.5,0) [0|0] "speed"  X
  SG_ DI_cruiseState : 12|3@1+ (1,0) [0|0] ""  X
  SG_ DI_locStatusCounter : 8|4@1+ (1,0) [0|0] ""  X
  SG_ DI_locStatusChecksum : 0|8@1+ (1,0) [0|0] ""  X
@@ -295,6 +300,7 @@ VAL_ 880 EPAS3S_currentTuneMode 3 "STEERING_TUNE_RWD_COMFORT" 1 "STEERING_TUNE_D
 VAL_ 599 DI_uiSpeedUnits 0 "DI_SPEED_MPH" 1 "DI_SPEED_KPH" ;
 VAL_ 599 DI_uiSpeed 255 "DI_UI_SPEED_SNA" ;
 VAL_ 599 DI_vehicleSpeed 4095 "SNA" ;
+VAL_ 637 APS_eacAllow 0 "INHIBIT" 1 "ALLOW" 2 "RESERVED" 3 "SNA";
 VAL_ 1160 DAS_steeringControlType 2 "LANE_KEEP_ASSIST" 0 "NONE" 1 "ANGLE_CONTROL" 3 "EMERGENCY_LANE_KEEP" ;
 VAL_ 1160 DAS_steeringAngleRequest 16384 "ZERO_ANGLE" ;
 VAL_ 297 SCCM_steeringAngleValidity 3 "SNA" 2 "INIT" 0 "INVALID" 1 "VALID" ;
@@ -306,7 +312,7 @@ VAL_ 646 DI_aebState 0 "UNAVAILABLE" 1 "STANDBY" 2 "ENABLED" 3 "STANDSTILL" 4 "F
 VAL_ 646 DI_autopilotRequest 0 "IDLE" 1 "ACTIVATE" ;
 VAL_ 646 DI_parkBrakeState 0 "UNAVAILABLE" 1 "RELEASED" 2 "REQUESTED" 3 "APPLIED" 4 "FAULTED" 5 "PANIC_EPB" 6 "PANIC_SKID" 7 "RELEASING" 15 "SNA" ;
 VAL_ 646 DI_autoparkState 0 "UNAVAILABLE" 1 "STANDBY" 2 "STARTED" 3 "ACTIVE" 4 "COMPLETE" 5 "PAUSED" 6 "ABORTED" 7 "RESUMED" 8 "UNPARK_COMPLETE" 9 "SELFPARK_STARTED" 15 "SNA" ;
-VAL_ 646 DI_speedUnits 0 "MPH" 1 "KPH" ;
+VAL_ 646 DI_cruiseSetSpeedUnits 0 "MPH" 1 "KPH" ;
 VAL_ 646 DI_cruiseState 0 "UNAVAILABLE" 1 "STANDBY" 2 "ENABLED" 3 "STANDSTILL" 4 "OVERRIDE" 5 "FAULT" 6 "PRE_FAULT" 7 "PRE_CANCEL" ;
 VAL_ 785 buckleStatus 1 "LATCHED" 0 "UNLATCHED" ;
 VAL_ 785 anyDoorOpen 1 "OPEN" 0 "CLOSED" ;
