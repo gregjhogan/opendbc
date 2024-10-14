@@ -17,7 +17,7 @@ class CarState(CarStateBase):
     ret = structs.CarState()
 
     # Vehicle speed
-    ret.vEgoRaw = cp.vl["ESP_B"]["ESP_vehicleSpeed"] * CV.KPH_TO_MS
+    ret.vEgoRaw = cp.vl["DI_speed"]["DI_vehicleSpeed"] * CV.KPH_TO_MS
     ret.vEgo, ret.aEgo = self.update_speed_kf(ret.vEgoRaw)
     ret.standstill = cp.vl["DI_state"]["DI_vehicleHoldState"] == 3
 
@@ -81,6 +81,7 @@ class CarState(CarStateBase):
   def get_can_parser(CP):
     messages = [
       # sig_address, frequency
+      ("DI_speed", 50),
       ("DI_systemStatus", 100),
       ("IBST_status", 25),
       ("DI_state", 10),
