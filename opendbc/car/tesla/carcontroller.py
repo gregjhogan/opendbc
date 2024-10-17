@@ -39,6 +39,10 @@ class CarController(CarControllerBase):
     if self.frame % 10 == 0:
       can_sends.append(self.tesla_can.create_steering_allowed((self.frame // 10) % 16))
 
+    # Radar activation
+    if self.frame % 5 == 0:
+      can_sends.extend(self.tesla_can.create_radar_commands(CS.out.vEgo, (self.frame // 5) % 4))
+
     # Longitudinal control
     if self.CP.openpilotLongitudinalControl and self.frame % 4 == 0:
       state = 4 if not hands_on_fault else 13  # 4=ACC_ON, 13=ACC_CANCEL_GENERIC_SILENT

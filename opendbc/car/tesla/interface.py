@@ -17,7 +17,7 @@ class CarInterface(CarInterfaceBase):
     ret.steerActuatorDelay = 0.25
 
     ret.steerControlType = structs.CarParams.SteerControlType.angle
-    ret.radarUnavailable = True
+    ret.radarUnavailable = False
 
     ret.openpilotLongitudinalControl = True
 
