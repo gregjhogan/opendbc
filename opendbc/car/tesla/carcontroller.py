@@ -18,7 +18,7 @@ class CarController(CarControllerBase):
     can_sends = []
 
     # Disengage and allow for user override
-    hands_on_fault = CS.hands_on_level >= 3
+    hands_on_fault = CS.hands_on_level >= 2
     lkas_enabled = CC.latActive and not hands_on_fault
 
     if self.frame % 2 == 0:
